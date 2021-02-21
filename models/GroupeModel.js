@@ -8,7 +8,7 @@ const GroupeSchema = new Schema({
     }]
 });
 
-const GroupeModel = mongoose.model('Groupe', GroupeSchema);
+const GroupeModel = mongoose.model('Group', GroupeSchema);
 module.exports = {
     GroupeSchema,
     GroupeModel

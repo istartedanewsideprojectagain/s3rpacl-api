@@ -4,7 +4,6 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    console.log(req.body);
     const id = req.url.split('/')[2];
     const type = req.url.split('/')[1];
     const path = `${process.env.UPLOAD_PATH}/${type}/${id}`;

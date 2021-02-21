@@ -2,9 +2,7 @@ const jwt = require('jsonwebtoken');
 
 
 exports.checkToken = (req, res, next) => {
-  console.log(process.env.JWT_SECRET);
   let token = req.headers['x-access-token'] || req.headers.authorization;
-  console.log(token)
   if (token && token.startsWith('Bearer ')) {
     token = token.slice(7, token.length);
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
@@ -16,7 +14,6 @@ exports.checkToken = (req, res, next) => {
         });
       }
       req.user = decoded._id;
-      console.log(decoded)
       next();
     });
   } else {

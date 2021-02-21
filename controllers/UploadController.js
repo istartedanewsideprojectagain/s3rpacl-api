@@ -22,10 +22,12 @@ const uploadParams = {
 const uploadFile = (req,res) => {
     const userId = req.user;
     const action = 'create';
-    GroupeModel.findOne({ members: userId },(findErr,groupe) => {
-        if(findErr || !groupe) return handleError(new ErrorHandler(403, "The user is not a membre of any groupe"), res);
-        AclModel.find({ groupe: groupe._id,action: action, path: req.body.path }, (findErrAcl,acls) => {
-            if(acls.length < 1) return handleError(new ErrorHandler(403, "No acl found"), res);
+    GroupeModel.findOne({ members: userId },(findErr,group) => {
+        if(findErr || !group) return handleError(new ErrorHandler(403, "The user is not a membre of any group"), res);
+        AclModel.find({ group: group._id,action: action, path: req.body.path }, (findErrAcl,acls) => {
+            if(acls.length <1) {
+                return handleError(new ErrorHandler(403, "No acl found"), res);
+            }
             const params = uploadParams;
             uploadParams.Key = req.body.path + "/" +req.file.originalname;
             uploadParams.Body = req.file.buffer;
@@ -34,7 +36,6 @@ const uploadFile = (req,res) => {
                 file: req.body.path+"/"+req.file.originalname,
                 owner: req.user,
             });
-            console.log(newUpload);
             newUpload.save((err) => {
                 if(err) return handleError(new ErrorHandler(500, "Error in save"), res);
                 s3Client.upload(params, (err, data) => {

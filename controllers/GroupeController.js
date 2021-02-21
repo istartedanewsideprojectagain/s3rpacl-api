@@ -16,14 +16,14 @@ const createGroupe = (req,res) => {
 const addMemberToGroupe = (req,res) => {
     const groupeId = req.params.id;
 
-    GroupeModel.findById(groupeId, (findErr,groupe) => {
+    GroupeModel.findById(groupeId, (findErr,group) => {
         if (findErr) return handleError(new ErrorHandler(404, findErr), res);
 
         req.body.newMembers.forEach(newMemberId => {
-            groupe.members.push(mongoose.Types.ObjectId(newMemberId));
+            group.members.push(mongoose.Types.ObjectId(newMemberId));
         });
 
-        groupe.save((err) => {
+        group.save((err) => {
             if (err) return handleError(new ErrorHandler(400, err), res);
             return res.json({error: false, message: 'Successfully saved' });
         });

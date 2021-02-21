@@ -14,7 +14,7 @@ const AclSchema = new Schema({
     }],
     group: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Groupe'
+        ref: 'Group'
     }
 });
 
